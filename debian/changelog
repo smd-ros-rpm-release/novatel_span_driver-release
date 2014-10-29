@@ -1,0 +1,16 @@
+ros-hydro-novatel-msgs (0.2.0-0quantal) quantal; urgency=high
+
+  * Remove a bunch of unused messages.
+  * Add WHEELVELOCITY msg.
+  * Contributors: Mike Purvis
+
+ -- Mike Purvis <mpurvis@clearpathrobotics.com>  Wed, 29 Oct 2014 04:00:00 -0000
+
+ros-hydro-novatel-msgs (0.1.0-0quantal) quantal; urgency=high
+
+  * Package mostly unchanged from work done by NovAtel.
+  * Contributors: Mike Purvis
+
+ -- Mike Purvis <mpurvis@clearpathrobotics.com>  Fri, 24 Oct 2014 04:00:00 -0000
+
+
