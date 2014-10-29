@@ -31,75 +31,51 @@ import novatel_msgs.msg
 
 from port import Port
 from novatel_span_driver.mapping import msgs
-from handlers import GroupHandler, MessageHandler
+from handlers import MessageHandler
 import translator
 
 from cStringIO import StringIO
 from threading import Lock
 
-def all_same(dict_):
-    # return true if all of the values in this dict are the same
-    # ignores those with values == 0
-    vls = dict_.values()
-    j = 0
-    while j < len(vls) and vls[j] == 0:
-      j+=1
-
-    for i in range(j+1, len(vls)):
-      if vls[j] != vls[i] and vls[i] != 0 and vls[i] != None:
-        return False
-
-    return True
 
 class DataPort(Port):
-  ALLMSGS_SEND_TIMEOUT = rospy.Duration.from_sec(0.05)
+    def run(self):
+        # Set up handlers for translating different novatel messages as they arrive.
+        handlers = {}
+        pkt_counters = {}
+        pkt_times = {}
 
-  def run(self):
-    all_msgs = novatel_msgs.msg.AllMsgs()
-    all_msgs_pub = rospy.Publisher("config", all_msgs.__class__, latch=True, queue_size=1)
+        for msg_id in msgs.keys():
+            handlers[msg_id] = MessageHandler(*msgs[msg_id])
+            pkt_counters[msg_id] = 0
+            pkt_times[msg_id] = 0
 
-    # Set up handlers for translating different novatel messages as they arrive.
-    handlers = {}
-    pkt_counters = {}
-    pkt_times = {}
+        bad_pkts = set()
+        pkt_id = None
 
-    for msg_id in msgs.keys():
-      handlers[msg_id] = MessageHandler(*msgs[msg_id], all_msgs=all_msgs)
-      pkt_counters[msg_id] = 0
-      pkt_times[msg_id] = 0
+        while not self.finish.is_set():
+            try:
+                pkt_id, pkt_str, pkt_time = self.recv()
+                if pkt_id is not None:
+                    handlers[pkt_id].handle(StringIO(pkt_str))
 
-    bad_pkts = set()
-    pkt_id = None
+            except ValueError as e:
+                # Some problem in the recv() routine.
+                rospy.logwarn(str(e))
+                continue
 
-    while not self.finish.is_set():
-      try:
-        pkt_id, pkt_str, pkt_time = self.recv()
-        if pkt_id != None:
-          handlers[pkt_id].handle(StringIO(pkt_str))
+            except KeyError as e:
+                if pkt_id not in handlers and pkt_id not in pkt_counters:
+                    rospy.logwarn("No handler for message id %d" % pkt_id)
 
-      except ValueError as e:
-        # Some problem in the recv() routine.
-        rospy.logwarn(str(e))
-        continue
+            except translator.TranslatorError:
+                if pkt_id not in bad_pkts:
+                    rospy.logwarn("Error parsing %s.%d" % pkt_id)
+                    bad_pkts.add(pkt)
 
-      except KeyError as e:
-        if pkt_id not in handlers and pkt_id not in pkt_counters:
-          rospy.logwarn("No handler for message id %d" % pkt_id)
-          #handlers[pkt_id] = MessageHandler(*msgs[pkt_id], all_msgs=all_msgs)
-
-      except translator.TranslatorError:
-        if pkt_id not in bad_pkts:
-          rospy.logwarn("Error parsing %s.%d" % pkt_id)
-          bad_pkts.add(pkt)
-
-      if pkt_id not in pkt_counters:
-        pkt_counters[pkt_id] = 0
-      else:
-        pkt_counters[pkt_id] += 1
-        pkt_times[pkt_id] = pkt_time # only track times of msgs that are part of novatel msgs
-
-      # wait until all the msgs have the same GNSS time before sending
-      if all_same(pkt_times):
-        all_msgs_pub.publish(all_msgs)
-        all_msgs.last_sent = rospy.get_rostime()
+            if pkt_id not in pkt_counters:
+                pkt_counters[pkt_id] = 0
+            else:
+                pkt_counters[pkt_id] += 1
+                pkt_times[pkt_id] = pkt_time  # only track times of msgs that are part of novatel msgs
 
