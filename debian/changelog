@@ -1,9 +1,0 @@
-ros-hydro-novatel-span-driver (0.1.0-0precise) precise; urgency=high
-
-  * Consolidation and reorganization of novatelcentral driver prepared by NovAtel
-    and published here: https://github.com/NovAtel-inc/rosnovatel
-  * Contributors: Mike Purvis
-
- -- Mike Purvis <mpurvis@clearpathrobotics.com>  Fri, 24 Oct 2014 04:00:00 -0000
-
-
