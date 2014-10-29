@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(novatel_span_driver)
 
-find_package(catkin REQUIRED COMPONENTS rospy)
+find_package(catkin REQUIRED COMPONENTS roslaunch roslint rostest)
 
 catkin_python_setup()
 
@@ -13,3 +13,15 @@ install(PROGRAMS scripts/driver
 
 install(DIRECTORY launch
         DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
+roslint_python()
+
+
+if(CATKIN_ENABLE_TESTING)
+  add_rostest(test/propak6-basic-fix.test)
+  add_rostest(test/propak6-span-fix.test)
+
+  roslaunch_add_file_check(launch/example.launch)
+
+  roslint_add_test()
+endif()
