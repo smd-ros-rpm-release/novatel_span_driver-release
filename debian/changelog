@@ -1,0 +1,21 @@
+ros-hydro-novatel-span-driver (0.2.0-0quantal) quantal; urgency=high
+
+  * Re-work the publisher class.
+  * Add a pcap for a SPAN fix.
+  * Tweaks to topic names.
+  * Add working rostest, fixes from pepify.
+  * Add roslaunch file check for example launcher.
+  * Add roslint test.
+  * Contributors: Mike Purvis
+
+ -- Mike Purvis <mpurvis@clearpathrobotics.com>  Wed, 29 Oct 2014 04:00:00 -0000
+
+ros-hydro-novatel-span-driver (0.1.0-0quantal) quantal; urgency=high
+
+  * Consolidation and reorganization of novatelcentral driver prepared by NovAtel
+    and published here: https://github.com/NovAtel-inc/rosnovatel
+  * Contributors: Mike Purvis
+
+ -- Mike Purvis <mpurvis@clearpathrobotics.com>  Fri, 24 Oct 2014 04:00:00 -0000
+
+
