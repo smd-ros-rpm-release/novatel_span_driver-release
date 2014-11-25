@@ -1,0 +1,19 @@
+<launch>
+  <arg name="ip" default="198.161.73.9" />
+  <arg name="port" default="3001" />
+
+  <node name="novatel_span_driver" pkg="novatel_span_driver" type="driver">
+    <param name="ip" value="$(arg ip)" />
+    <param name="port" value="$(arg port)" />
+    <rosparam ns="configuration">
+      log_request:
+        inspvaxb: 0.02
+        bestposb: 0.02
+        corrimudatab: 0.02
+        inscovb: 1
+      command:
+        setinitattitude: 0 0 0 3 3 10
+    </rosparam>
+    <param name="rate" value="200" />
+  </node>
+</launch>
