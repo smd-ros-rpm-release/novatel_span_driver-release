@@ -1,0 +1,34 @@
+ros-indigo-novatel-span-driver (1.0.0-1trusty) trusty; urgency=high
+
+  * Add capture from INS PPP, default value for IMU rate, fix test, add docs to example launcher.
+  * Throttle wheelvelocity commands to 1Hz, as recommended by Novatel.
+  * Fix velx/y mixup, add diagnostic publisher.
+  * BESTPOSB -> BESTPOS, add diagnostic constants and shim class.
+  * Treat altitude as positive-up.
+  * Update messages to include header, fix header to match documentation.
+  * Add wheel velocity handler.
+  * Contributors: Mike Purvis
+
+ -- Mike Purvis <mpurvis@clearpathrobotics.com>  Tue, 25 Nov 2014 05:00:00 -0000
+
+ros-indigo-novatel-span-driver (0.2.0-1trusty) trusty; urgency=high
+
+  * Re-work the publisher class.
+  * Add a pcap for a SPAN fix.
+  * Tweaks to topic names.
+  * Add working rostest, fixes from pepify.
+  * Add roslaunch file check for example launcher.
+  * Add roslint test.
+  * Contributors: Mike Purvis
+
+ -- Mike Purvis <mpurvis@clearpathrobotics.com>  Wed, 29 Oct 2014 04:00:00 -0000
+
+ros-indigo-novatel-span-driver (0.1.0-1trusty) trusty; urgency=high
+
+  * Consolidation and reorganization of novatelcentral driver prepared by NovAtel
+    and published here: https://github.com/NovAtel-inc/rosnovatel
+  * Contributors: Mike Purvis
+
+ -- Mike Purvis <mpurvis@clearpathrobotics.com>  Fri, 24 Oct 2014 04:00:00 -0000
+
+
