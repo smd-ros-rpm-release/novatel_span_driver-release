@@ -1,0 +1,12 @@
+Source: ros-indigo-novatel-span-driver
+Section: misc
+Priority: extra
+Maintainer: Mike Purvis <mpurvis@clearpathrobotics.com>
+Build-Depends: debhelper (>= 9.0.0), python-impacket, python-pcapy, ros-indigo-catkin, ros-indigo-roslaunch, ros-indigo-roslint, ros-indigo-rostest
+Homepage: 
+Standards-Version: 3.9.2
+
+Package: ros-indigo-novatel-span-driver
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-serial, ros-indigo-diagnostic-msgs, ros-indigo-diagnostic-updater, ros-indigo-geodesy, ros-indigo-novatel-msgs, ros-indigo-rospy, ros-indigo-sensor-msgs, ros-indigo-std-msgs, ros-indigo-tf
+Description: Python driver for NovAtel SPAN devices.
